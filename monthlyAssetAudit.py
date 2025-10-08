@@ -16,7 +16,7 @@ HEADERS = {
 }
 
 def get_user_by_username(username):
-    """Search for user by username (e.g. firstname.lastname)."""
+    #Fairly self explanatory
     url = f"{SNIPE_URL}/users"
     params = {"search": username}
     r = requests.get(url, headers=HEADERS, params=params, verify=False)
@@ -44,7 +44,7 @@ def get_user_assets(user_id):
     if "rows" not in data or not data["rows"]:
         return []
 
-    # Return a list like "Asset Name (Model Name)"
+    # Returns asset name and model, can expand to pull more but at that point just look at Snipe itself
     assets_list = []
     for asset in data["rows"]:
         asset_name = asset.get("name", "Unknown Asset")
@@ -73,6 +73,7 @@ def main():
         assets = get_user_assets(user["id"])
     
         if not assets:
+            #Wanted to make this output the standard email for has assets/no assets but trying to get it to do tables was annoying, keep a blank draft version handy to copy/paste
             result_text = "No assets assigned"
         else:
             result_text = "Assigned assets: " + ", ".join(assets)
@@ -90,4 +91,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
